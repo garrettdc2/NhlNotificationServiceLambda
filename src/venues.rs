@@ -5,6 +5,6 @@ use serde::{Deserialize, Serialize};
 pub struct Venue {
     #[serde(default)]
     id: Option<u32>,
-    name: String,
+    pub name: String,
     link: String,
 }

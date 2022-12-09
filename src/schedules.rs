@@ -1,4 +1,8 @@
+use std::env;
+use std::str::FromStr;
 use serde::{Serialize, Deserialize};
+use chrono::{DateTime, Utc, NaiveDateTime};
+use chrono_tz::Tz;
 use crate::dates::Date;
 use crate::games::Game;
 
@@ -32,7 +36,7 @@ pub async fn get_todays_game_for_team(team_name: &String, date: &Option<String>)
             let game = get_team_game_from_schedule(d, team_name);
             match game {
                 None => format!("The {} have no games today", team_name),
-                Some(g) => serde_json::to_string(g).unwrap()
+                Some(g) => generate_game_summary(g, team_name)
             }
         }
     }
@@ -62,4 +66,23 @@ fn get_team_game_from_schedule<'a>(date: &'a Date, team_name: &'a String) -> Opt
         }
     }
     None
+}
+
+fn generate_game_summary(game: &Game, team_name: &String) -> String {
+    let is_at_home = team_name.eq(&game.teams.home.team.name);
+
+    let opposing_team: &String;
+    if is_at_home {
+        opposing_team = &game.teams.away.team.name;
+    } else {
+        opposing_team = &game.teams.home.team.name;
+    }
+
+    let venue = &game.venue.name;
+
+    let date_time_utc = DateTime::<Utc>::from_utc(NaiveDateTime::parse_from_str(&game.game_date.as_str(), "%Y-%m-%dT%H:%M:%SZ").expect("Date could not be parsed"), Utc);
+    let time_zone = Tz::from_str(env::var("TIME_ZONE").unwrap_or(String::from("UTC")).as_str()).expect("Invalid timezone");
+    let localized_date_time = date_time_utc.with_timezone(&time_zone);
+
+    return format!("The {} play the {} today at {} at the {}.\nLet's go {}!!!", team_name, opposing_team, localized_date_time.format("%I:%M %p"), venue, team_name);
 }

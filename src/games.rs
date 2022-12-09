@@ -9,10 +9,10 @@ pub struct Game {
     link: String,
     game_type: String,
     season: String,
-    game_date: String,
+    pub game_date: String,
     status: Status,
     pub teams: Teams,
-    venue: Venue,
+    pub venue: Venue,
     content: Content,
 }
 
