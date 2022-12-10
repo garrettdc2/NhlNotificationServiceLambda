@@ -1,7 +1,7 @@
 # NHL Notification Service
 
 ## About
-This is a passion project used to learn Rust. The goal of the project is to create a lambda that will send a daily alert if the specified NHL team is playing that day. in current state, the generated lamba will return game data if the specified team is playing on the current date, unless another date is specified
+This is a passion project used to learn Rust. Holds code for a lambda that will send a daily alert if the specified NHL team is playing that day. relies on env vars to determine team, timezone, and destination webhook url.
 
 ## How to package for lambda on MAC
 ```
