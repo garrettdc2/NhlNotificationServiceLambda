@@ -1,25 +1,26 @@
+use std::env;
+use std::collections::HashMap;
 use lambda_runtime::{Error, LambdaEvent};
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 use crate::schedules;
 
 #[derive(Deserialize)]
-pub struct Request {
-    team_name: String,
-    date: Option<String>
-}
+pub struct Request {}
 
-#[derive(Serialize)]
-pub struct Response {
-    msg: String,
-}
+pub(crate) async fn handler(_event: LambdaEvent<Request>) -> Result<String, Error> {
+    let team_name = env::var("TEAM_NAME").expect("Env variable TEAM_NAME not found");
+    let webhook_url = env::var("WEBHOOK_URL").expect("Env variable WEBHOOK_URL not found");
+    let resp = schedules::get_todays_game_for_team(&team_name, &None::<String>).await;
+    let mut body = HashMap::new();
+    body.insert("content", resp);
 
-pub(crate) async fn handler(event: LambdaEvent<Request>) -> Result<Response, Error> {
-    let Request { team_name,  date } = &event.payload;
-    let resp = schedules::get_todays_game_for_team(team_name, date).await;
+    let client = reqwest::Client::new();
+    let webhook_response = client.post(webhook_url)
+        .header("Content-Type", "application/json")
+        .json(&body)
+        .send()
+        .await?;
+    let serialized_response = webhook_response.text().await?;
 
-    let resp = Response {
-        msg: resp,
-    };
-
-    Ok(resp)
+    Ok(serialized_response)
 }

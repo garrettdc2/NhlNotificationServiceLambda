@@ -83,6 +83,7 @@ fn generate_game_summary(game: &Game, team_name: &String) -> String {
     let date_time_utc = DateTime::<Utc>::from_utc(NaiveDateTime::parse_from_str(&game.game_date.as_str(), "%Y-%m-%dT%H:%M:%SZ").expect("Date could not be parsed"), Utc);
     let time_zone = Tz::from_str(env::var("TIME_ZONE").unwrap_or(String::from("UTC")).as_str()).expect("Invalid timezone");
     let localized_date_time = date_time_utc.with_timezone(&time_zone);
+    let team_short_name = team_name.split_whitespace().next_back().unwrap_or(team_name);
 
-    return format!("The {} play the {} today at {} at the {}.\nLet's go {}!!!", team_name, opposing_team, localized_date_time.format("%I:%M %p"), venue, team_name);
+    return format!("The {} play the {} today at {} at the {}.\nLet's go {}!!!", team_name, opposing_team, localized_date_time.format("%I:%M %p"), venue, team_short_name);
 }
