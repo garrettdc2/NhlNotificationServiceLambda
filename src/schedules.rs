@@ -27,16 +27,16 @@ struct MetaData {
   time_stamp: String,
 }
 
-pub async fn get_todays_game_for_team(team_name: &String, date: &Option<String>) -> String {
+pub async fn get_todays_game_for_team(team_name: &String, date: &Option<String>) -> Option<String> {
     let schedule: Schedule = get_schedule(date).await;
     let date = schedule.dates.first();
     match date {
-        None => String::from("No games today"),
+        None => None,
         Some(d) => {
             let game = get_team_game_from_schedule(d, team_name);
             match game {
-                None => format!("The {} have no games today", team_name),
-                Some(g) => generate_game_summary(g, team_name)
+                None => None,
+                Some(g) => Some(generate_game_summary(g, team_name))
             }
         }
     }
