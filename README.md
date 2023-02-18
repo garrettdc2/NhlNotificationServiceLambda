@@ -1,7 +1,15 @@
 # NHL Notification Service
 
+[![MIT licensed][mit-badge]][mit-url]
+[![build Status][build-badge]][build-url]
+
+[mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[mit-url]: https://github.com/garrettdc2/NhlNotificationServiceLambda/blob/main/LICENSE
+[build-badge]: https://github.com/garrettdc2/NhlNotificationServiceLambda/actions/workflows/build.yml/badge.svg?branch=main
+[build-url]: https://github.com/garrettdc2/NhlNotificationServiceLambda/actions/workflows/build.yml
+
 ## About
-This is a passion project used to learn Rust. Holds code for a lambda that will send a daily alert if the specified NHL team is playing that day. relies on env vars to determine team, timezone, and destination webhook url.
+This is a passion project used to learn Rust. Holds code for a lambda that will send a daily alert if the specified NHL team is playing that day. Relies on env vars to determine team, timezone, and destination webhook url.
 
 ## How to package for lambda on MAC
 ```
