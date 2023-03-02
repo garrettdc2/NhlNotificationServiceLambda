@@ -3,12 +3,7 @@ use log::LevelFilter;
 
 use simple_logger::SimpleLogger;
 
-mod schedules;
-mod dates;
-mod games;
 mod handler;
-mod league_records;
-mod venues;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {

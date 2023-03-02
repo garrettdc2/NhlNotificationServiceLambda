@@ -624,17 +624,28 @@ dependencies = [
 ]
 
 [[package]]
-name = "nhl_notification_service_lambda"
+name = "nhl-api-client"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c570aa51113a381723781a4323b66d4878d3956a0b13ce431bfeac5c56388f05"
 dependencies = [
  "chrono",
  "chrono-tz",
- "lambda_runtime",
- "log",
- "openssl",
  "reqwest",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "nhl_notification_service_lambda"
+version = "0.1.0"
+dependencies = [
+ "lambda_runtime",
+ "log",
+ "nhl-api-client",
+ "openssl",
+ "reqwest",
+ "serde",
  "simple_logger",
  "tokio",
 ]
@@ -717,9 +728,9 @@ checksum = "ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"
 
 [[package]]
 name = "openssl-src"
-version = "111.24.0+1.1.1s"
+version = "111.25.0+1.1.1t"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3498f259dab01178c6228c6b00dcef0ed2a2d5e20d648c017861227773ea4abd"
+checksum = "3173cd3626c43e3854b1b727422a276e568d9ec5fe8cec197822cf52cfb743d6"
 dependencies = [
  "cc",
 ]
@@ -1029,7 +1040,7 @@ dependencies = [
  "atty",
  "colored",
  "log",
- "time 0.3.17",
+ "time 0.3.20",
  "windows-sys 0.42.0",
 ]
 
@@ -1105,9 +1116,9 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.3.17"
+version = "0.3.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a561bf4617eebd33bca6434b988f39ed798e527f51a1e797d0ee4f61c0a38376"
+checksum = "cd0cbfecb4d19b5ea75bb31ad904eb5b9fa13f21079c3b92017ebdf4999a5890"
 dependencies = [
  "itoa",
  "libc",
@@ -1125,9 +1136,9 @@ checksum = "2e153e1f1acaef8acc537e68b44906d2db6436e2b35ac2c6b42640fff91f00fd"
 
 [[package]]
 name = "time-macros"
-version = "0.2.6"
+version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d967f99f534ca7e495c575c62638eebc2898a8c84c119b89e250477bc4ba16b2"
+checksum = "fd80a657e71da814b8e5d60d3374fc6d35045062245d80224748ae522dd76f36"
 dependencies = [
  "time-core",
 ]
